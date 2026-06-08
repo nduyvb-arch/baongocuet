@@ -147,12 +147,15 @@
       width: 130px; height: 130px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--m-light), var(--m-cool), var(--m-warm));
+      background-size: cover;
+      background-position: center;
       display: flex; align-items: center; justify-content: center;
       font-size: 3.5rem;
       margin: 0 auto 1.8rem;
       box-shadow: 0 0 0 8px rgba(77, 208, 225, 0.25), 0 0 0 16px rgba(77, 208, 225, 0.1);
       animation: fadeInDown 0.9s ease 0.1s both, avatarPulse 3s ease-in-out 1.5s infinite;
       position: relative;
+      cursor: pointer;
     }
     @keyframes avatarPulse {
       0%, 100% { box-shadow: 0 0 0 8px rgba(77, 208, 225, 0.25), 0 0 0 16px rgba(77, 208, 225, 0.1); }
@@ -503,7 +506,10 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-badge">Portfolio học tập · 2026</div>
-  <div class="hero-avatar">🌟</div>
+  <div class="hero-avatar" id="avatarPreview" onclick="document.getElementById('avatarUpload').click()" title="Đổi ảnh đại diện">
+    <span id="avatarEmoji">🌟</span>
+  </div>
+  <input type="file" id="avatarUpload" accept="image/*" class="hidden-file-input" onchange="updateAvatar(event)" />
   <h1 class="hero-name">Trần Thị Bảo Ngọc</h1>
   <p class="hero-sub">Sinh viên Đại học Công Nghệ - ĐHQGHN</p>
   <p class="hero-school">
@@ -874,6 +880,19 @@ function spawnPetals() {
     leaf.style.animationDelay = (Math.random() * 10) + 's';
     leaf.style.transform = `scale(${0.7 + Math.random() * 0.6})`;
     container.appendChild(leaf);
+  }
+}
+
+/* ===== AVATAR UPLOAD ===== */
+function updateAvatar(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('avatarPreview').style.backgroundImage = `url(${e.target.result})`;
+      document.getElementById('avatarEmoji').style.display = 'none';
+    }
+    reader.readAsDataURL(file);
   }
 }
 
